@@ -6,10 +6,10 @@ import os
 import base64
 
 # === Configuration ===
-THINGSPEAK_API_KEY = "J0CP0EEVSSERG1TX"
+THINGSPEAK_API_KEY = "your_thingspeak_api_key"
 THINGSPEAK_URL = "https://api.thingspeak.com/update"
 
-IMGBB_API_KEY = "f1b93cf2805fc9f990a676082d1c6583"
+IMGBB_API_KEY = "your_imgbb_api_key
 IMGBB_URL = "https://api.imgbb.com/1/upload"
 
 CASCADE_PATH = "/home/snowboy/yolo/venv/lib/python3.11/site-packages/cv2/data/haarcascade_frontalface_default.xml"
@@ -20,7 +20,7 @@ subprocess.run(["libcamera-jpeg", "-o", img_filename, "--width", "640", "--heigh
 
 # === Step 2: Read the image ===
 if not os.path.exists(img_filename):
-    print("❌ No image found after capture.")
+    print("No image found after capture.")
     exit()
 
 img = cv2.imread(img_filename)
@@ -33,7 +33,7 @@ brightness = 0
 if img is not None:
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     brightness = gray.mean()
-    print(f"🕶️ Average brightness: {brightness:.2f}")
+    print(f"Average brightness: {brightness:.2f}")
     light_on = 1 if brightness > 60 else 0
 
     # === Step 4: Detect human (face) if light is ON ===
@@ -48,11 +48,11 @@ if img is not None:
             human_detected = 0
             wastage = 1
             
-        print(f"👤 Human detected: {bool(human_detected)}")
+        print(f"Human detected: {bool(human_detected)}")
     else:
-        print("💡 Light is OFF. Skipping face detection.")
+        print("Light is OFF. Skipping face detection.")
 else:
-    print("❌ Failed to load image.")
+    print("Failed to load image.")
     exit()
 
 # === Step 5: Upload image to imgbb ===
@@ -67,10 +67,10 @@ img_payload = {
 img_response = requests.post(IMGBB_URL, data=img_payload)
 if img_response.status_code == 200:
     image_link = img_response.json()["data"]["url"]
-    print(f"🖼️ Image uploaded: {image_link}")
+    print(f"Image uploaded: {image_link}")
 else:
     image_link = "Upload failed"
-    print("❌ Failed to upload image.")
+    print(" Failed to upload image.")
 
 # === Step 7: Send data to ThingSpeak ===
 status_msg = image_link
@@ -85,7 +85,7 @@ payload = {
 
 response = requests.get(THINGSPEAK_URL, params=payload)
 if response.status_code == 200:
-    print("✅ Data sent to ThingSpeak.")
+    print("Data sent to ThingSpeak.")
 else:
-    print(f"❌ ThingSpeak update failed: {response.status_code}")
+    print(f"ThingSpeak update failed: {response.status_code}")
 
