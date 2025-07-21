@@ -53,3 +53,17 @@ Replace the following variables in the script with your actual API keys:
 ```python
 THINGSPEAK_API_KEY = "your_thingspeak_api_key"
 IMGBB_API_KEY = "your_imgbb_api_key"
+
+## Continuous Monitoring
+
+To run the system in a loop, use the following script:
+
+```python
+import time
+
+while True:
+    try:
+        exec(open("/home/snowboy/Desktop/shafi&fahmi/classroom_monitor.py").read())
+    except Exception as e:
+        print(f"Error: {e}")
+    time.sleep(5)  # Wait 5 seconds before next check
